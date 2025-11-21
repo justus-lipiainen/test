@@ -9,32 +9,42 @@ const PORT = 3000;
 const MENU_URL =
   "https://aromimenu.cgisaas.fi/VantaaAromieMenus/FI/Default/Vantti/Sotunkil/Page/Restaurant";
 
-// Helper: fetch & parse
+// Fetch and parse today's menu
 async function getTodaysFood() {
   const response = await fetch(MENU_URL);
   const html = await response.text();
   const $ = cheerio.load(html);
 
-  // Adjust selectors based on the site’s structure
-  // (You may need to inspect the page to confirm)
-  const today = new Date().toLocaleDateString("fi-FI");
+  // Aromi pages use ISO dates like: 2025-11-21
+  const isoDate = new Date().toISOString().split("T")[0];
 
   const result = {
-    date: today,
+    date: isoDate,
     meals: []
   };
 
-  // Example selector: find a section that contains today's date
-  const daySection = $(`.day:contains("${today}")`);
+  // Most Aromi pages use data-date="YYYY-MM-DD"
+  const daySection = $(`[data-date="${isoDate}"]`);
 
-  daySection.find(".meal").each((_, el) => {
-    result.meals.push($(el).text().trim());
-  });
+  if (!daySection.length) {
+    console.warn("No section found for date:", isoDate);
+    return result;
+  }
+
+  // Meal items are usually .meal-item or .mealItem
+  daySection
+    .find(".meal-item, .mealItem, .menu-item, .meal")
+    .each((_, el) => {
+      const text = $(el).text().trim();
+      if (text.length > 0) {
+        result.meals.push(text);
+      }
+    });
 
   return result;
 }
 
-// API ENDPOINT
+// API endpoint
 app.get("/api/today", async (req, res) => {
   try {
     const menu = await getTodaysFood();

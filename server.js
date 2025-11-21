@@ -1,21 +1,50 @@
-import express from 'express';
-import axios from 'axios';
-import * as cheerio from 'cheerio';
-import cors from 'cors'; // Add this import
+// server.js
+import express from "express";
+import fetch from "node-fetch";
+import * as cheerio from "cheerio";
 
 const app = express();
-app.use(cors()); // Add this line to enable CORS for all routes
+const PORT = 3000;
 
-app.get('/scrape', async (req, res) => {
+const MENU_URL =
+  "https://aromimenu.cgisaas.fi/VantaaAromieMenus/FI/Default/Vantti/Sotunkil/Page/Restaurant";
+
+// Helper: fetch & parse
+async function getTodaysFood() {
+  const response = await fetch(MENU_URL);
+  const html = await response.text();
+  const $ = cheerio.load(html);
+
+  // Adjust selectors based on the site’s structure
+  // (You may need to inspect the page to confirm)
+  const today = new Date().toLocaleDateString("fi-FI");
+
+  const result = {
+    date: today,
+    meals: []
+  };
+
+  // Example selector: find a section that contains today's date
+  const daySection = $(`.day:contains("${today}")`);
+
+  daySection.find(".meal").each((_, el) => {
+    result.meals.push($(el).text().trim());
+  });
+
+  return result;
+}
+
+// API ENDPOINT
+app.get("/api/today", async (req, res) => {
   try {
-    const { url } = req.query;
-    const { data } = await axios.get(url);
-    const $ = cheerio.load(data);
-    const titles = $('h1').map((i, el) => $(el).text()).get(); // Example: scrape h1 titles
-    res.json({ titles });
+    const menu = await getTodaysFood();
+    res.json(menu);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch menu" });
   }
 });
 
-app.listen(3001, () => console.log('Server on 3001'));
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

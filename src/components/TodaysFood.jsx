@@ -1,36 +1,23 @@
 import { useEffect, useState } from "react";
 
 function TodayMenu() {
-  const [menu, setMenu] = useState(null);
-  const [loading, setLoading] = useState(true);
+    const [menu, setMenu] = useState(null);
 
-  useEffect(() => {
-    async function fetchMenu() {
-      try {
-        const res = await fetch("http://localhost:3000/api/today");
-        const data = await res.json();
-        setMenu(data);
-      } catch (e) {
-        console.error("Failed to load menu:", e);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchMenu();
-  }, []);
+    useEffect(() => {
+        console.log("Fetching today's menu...");
+        fetch("http://localhost:5000/api/foods/1")
+            .then(response => response.json())
+            .then(data => {console.log(data);setMenu(data);})
+            .catch(error => console.error("Error fetching today's menu:", error));
+    }, []);
 
-  if (loading) return <p>Loading...</p>;
+    menu && console.log("Today's menu state:", menu.meals);
 
-  return (
-    <div>
-      <h2>Menu for {menu.date}</h2>
-      <ul>
-        {menu.meals.map((item, idx) => (
-          <li key={idx}>{item}</li>
-        ))}
-      </ul>
-    </div>
-  );
+    return (
+        <div>
+        <h2>Menu for </h2>
+        </div>
+    );
 }
 
 export default TodayMenu;

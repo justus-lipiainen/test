@@ -5,7 +5,7 @@ function TodayMenu() {
 
     useEffect(() => {
         console.log("Fetching today's menu...");
-        fetch("http://localhost:5000/api/foods/1")
+        fetch("http://localhost:6767/api/foods/1")
             .then(response => response.json())
             .then(data => {console.log(data);setMenu(data);})
             .catch(error => console.error("Error fetching today's menu:", error));

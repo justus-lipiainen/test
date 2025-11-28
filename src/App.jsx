@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <Card />
+      <Card id={1} class={1}/>
       <TodayMenu />
     </>
   );

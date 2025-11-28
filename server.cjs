@@ -5,7 +5,8 @@ const EventEmitter = require("events");
 const http = require("http");
 const express = require("express");
 const Joi = require("joi");
-const cors = require("cors");
+const { createServer } = require("http");
+const { Server } = require("socket.io");
 
 const foods = [
     { id: 1, meals: ["Pizza", "Salad", "Soup"] },
@@ -20,6 +21,11 @@ app.use(express.json());
 app.use(cors({
   origin: ['http://localhost:3000', 'http://localhost:5173', 'https://justus-lipiainen.github.io', 'https://justus-lipiainen.github.io/test', 'http://localhost:5173/test']
 }))
+
+
+io.on("connection", (socket) => {
+    console.log(`Connection with id: ${socket.id}`)
+});
 
 app.get("/", (req, res) => {
     const response = [

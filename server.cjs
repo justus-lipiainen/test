@@ -1,3 +1,4 @@
+require('dotenv').config();
 const os = require("os");
 const math = require("mathjs");
 const cors = require("cors");

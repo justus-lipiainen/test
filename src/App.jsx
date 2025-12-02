@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react'; // Added useEffect to the import
 import './App.css';
-import "./components/NavBar";
-import NavBar from './components/NavBar';
-import Card from './components/Card.jsx';
-import TodayMenu from './components/TodaysFood.jsx';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Home from './Pages/home.jsx';
+import MultiplayerGame from './Pages/MultiplayerGame.jsx';
 
 function App() {
-  return (
-    <>
-      <NavBar />
-      <Card id={1} class={1}/>
-      <TodayMenu />
-    </>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Navigate to="/home" />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/mpg" element={<MultiplayerGame />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;

@@ -11,7 +11,8 @@ function TwoPGame() {
         $("#findGame").hide();
         $("#opIdDis").hide();
         $("#pIdDis").hide();
-        const socket = io.connect('http://localhost:6767');
+        const socket = io.connect('https://test-d2mf.onrender.com');
+        //const socket = io.connect('http://localhost:6767');
 
         socket.on("connect", () => {
             $("#findGame").hide();

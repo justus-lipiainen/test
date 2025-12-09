@@ -1,33 +1,36 @@
 :root {
-    background-color: #242424;
-    font-family: Arial, Helvetica, sans-serif;
-    color: aliceblue;
+  background-color: #242424;
+  font-family: Arial, Helvetica, sans-serif;
+  color: aliceblue;
 }
 
 #navBar {
-  top: 0;
-  width: 100%;
   list-style-type: none;
   margin: 0;
   padding: 0;
+  overflow: hidden;
   background-color: #333333;
-  display: flex;
-  justify-content: left;
+  position: sticky;
+  top: 0;
+  justify-items: left;
   align-items: center;
 }
-
 #navBar .navicon {
   display: block;
   color: white;
   padding: 14px 16px;
   text-decoration: none;
-  height:fit-content;
+  float: left;
 }
 
 #navBar .navicon:hover {
   background-color: #111111;
 }
 
-#navicon1:hover{
+#navicon1:hover {
   background-color: #333333;
+}
+
+p {
+  font-size: 200%;
 }

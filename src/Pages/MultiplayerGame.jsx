@@ -6,7 +6,9 @@ function MultiplayerGame() {
     return (
         <>
             <NavBar />
-            <TwoPGame />
+            <div className="mainContent">
+                <TwoPGame />
+            </div>
         </>
     );
 }

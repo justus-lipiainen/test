@@ -17,6 +17,10 @@ function NavBar() {
         $("#navicon3").on("click", () => {
             navigate("/mpg")
         })
+
+        $("#navicon4").on("click", () => {
+            navigate("/kaplay")
+        })
     })
 
     return (
@@ -25,6 +29,7 @@ function NavBar() {
                 <li id="navicon1" className="navicon"><h1>My Application</h1></li>
                 <li id="navicon2" className="navicon">Home</li>
                 <li id="navicon3" className="navicon">Multiplayer Game</li>
+                <li id="navicon4" className="navicon">Kaplay Test</li>
             </ul>
         </div>
     );
